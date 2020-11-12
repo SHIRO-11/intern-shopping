@@ -20,7 +20,7 @@
                 @if(!$cartItems->isEmpty())
                 @foreach($cartItems as $item)
                 <tr align="center">
-                    <td><img src="/storage/product_images/{{$item->product->image}}" width="30px" height="30px"></td>
+                    <td><img src="data:image/png;base64,{{$item->product->image}}" width="30px" height="30px"></td>
                     <td>{{$item->product->name}}</td>
                     <td>
                         <a class="cart_quantity_up"

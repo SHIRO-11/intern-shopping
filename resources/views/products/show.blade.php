@@ -6,7 +6,7 @@
         <h2>商品名</h2>
         <div class="product-item-show-wrap">
             <div class="product-item-show-img-wrap">
-                <img class="product-item-show-img" src="/storage/product_images/{{$product->image}}">
+                <img class="product-item-show-img" src="data:image/png;base64,{{$product->image}}">
             </div>
             <div class="product-item-table-wrap">
                 <table class="table">

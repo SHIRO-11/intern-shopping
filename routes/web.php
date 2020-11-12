@@ -15,7 +15,7 @@
 Route::get('/', 'ProductsController@index')->name('products.index');
 Route::get('search', "ProductsController@search")->name('products.search');
 
-Route::get('products/show', 'ProductsController@show')->name('products.show');
+Route::get('products/show/{id}', 'ProductsController@show')->name('products.show');
 Route::get('/products/likes', 'ProductsController@likeProducts')->name('products.likes');
 Route::get('/products/addLike/{id}', 'ProductsController@addLike')->name('products.addLike');
 

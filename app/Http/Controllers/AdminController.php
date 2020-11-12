@@ -37,16 +37,18 @@ class AdminController extends Controller
             'description'=>'required|max:3000',
         ]);
         
-        // 拡張子の取得
-        $extension =  $request->file("image")->getClientOriginalExtension();
-        //スペースをなくす
-        $stringImageReFormat = str_replace(" ", "", $request->input('name'));
-        // スペースを無くした画像名にする（画像名に空白があると上手く処理できないことがある）
-        $imageName = $stringImageReFormat.".".$extension; //blackdress.jpg
+        // // 拡張子の取得
+        // $extension =  $request->file("image")->getClientOriginalExtension();
+        // //スペースをなくす
+        // $stringImageReFormat = str_replace(" ", "", $request->input('name'));
+        // // スペースを無くした画像名にする（画像名に空白があると上手く処理できないことがある）
+        // $imageName = $stringImageReFormat.".".$extension; //blackdress.jpg
 
-        // ファイル名を取得
-        $imageEncoded = File::get($request->image);
-        Storage::disk('local')->put('public/product_images/'.$imageName, $imageEncoded);
+        // // ファイル名を取得
+        // $imageEncoded = File::get($request->image);
+        // Storage::disk('local')->put('public/product_images/'.$imageName, $imageEncoded);
+
+        $imageName = base64_encode(file_get_contents($request->image->getRealPath()));
 
         $created = Product::create([
             'name'=>$request->name,

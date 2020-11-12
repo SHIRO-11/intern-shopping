@@ -8,7 +8,7 @@
             @foreach ($like_products as $product)
             <div class="product-item col-md-3">
                 <a href="{{route('products.show',['id'=>$product->product->id])}}" class="product-item-image-wrap"><img
-                        class="product-item-image" src="/storage/product_images/{{$product->product->image}}" alt=""></a>
+                        class="product-item-image" src="data:image/png;base64,{{$product->product->image}}" alt=""></a>
                 <h3 class="product-item-name">{{$product->product->name}}</h3>
                 <p class="product-item-price">{{$product->product->price}}</p>
                 <p class="product-item-btn btn btn-primary btn-block">今すぐ購入</p>

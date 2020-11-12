@@ -19,8 +19,7 @@
                 <tbody>
                     @foreach($products as $product)
                     <tr align="center">
-                        <td><a href="{{route('admin.products.editImage',['id'=>$product->id])}}"><img
-                                    src="/storage/product_images/{{$product->image}}" width="30px" height="30px"></a>
+                        <td><a href="{{route('admin.products.editImage',['id'=>$product->id])}}"><img src="data:image/png;base64,{{$product->image}}" width="30px" height="30px"></a>
                         </td>
                         <td>{{$product->name}}</td>
                         <td>{{$product->price}}</td>
