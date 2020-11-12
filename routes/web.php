@@ -11,22 +11,26 @@
 |
 */
 
-// 一般ユーザー用のルーティング
-Route::get('/', 'ProductsController@index')->name('products.index');
-Route::get('search', "ProductsController@search")->name('products.search');
+Route::group(['middleware' => ['auth']], function () {
+    // 一般ユーザー用のルーティング
+    Route::get('/', 'ProductsController@index')->name('products.index');
+    Route::get('search', "ProductsController@search")->name('products.search');
 
-Route::get('products/show/{id}', 'ProductsController@show')->name('products.show');
-Route::get('/products/likes', 'ProductsController@likeProducts')->name('products.likes');
-Route::get('/products/addLike/{id}', 'ProductsController@addLike')->name('products.addLike');
+    Route::get('products/show/{id}', 'ProductsController@show')->name('products.show');
+    Route::get('/products/likes', 'ProductsController@likeProducts')->name('products.likes');
+    Route::get('/products/addLike/{id}', 'ProductsController@addLike')->name('products.addLike');
 
-Route::get('/products/cart', 'ProductsController@cart')->name('products.cart');
-Route::get('product/addToCart/{id}', 'ProductsController@addToCart')->name('AddToCart');
-Route::get('product/deleteItemFromCart/{id}', 'ProductsController@deleteItemFromCart')->name('DeleteItemFromCart');
+    Route::get('/products/cart', 'ProductsController@cart')->name('products.cart');
+    Route::get('product/addToCart/{id}', 'ProductsController@addToCart')->name('AddToCart');
+    Route::get('product/deleteItemFromCart/{id}', 'ProductsController@deleteItemFromCart')->name('DeleteItemFromCart');
 
-Route::get('product/increaseSingleProduct/{id}', ['uses'=>'ProductsController@increaseSingleProduct','as'=>'IncreaseSingleProduct']);
+    Route::get('product/increaseSingleProduct/{id}', ['uses'=>'ProductsController@increaseSingleProduct','as'=>'IncreaseSingleProduct']);
     Route::get('product/decreaseSingleProduct/{id}', ['uses'=>'ProductsController@decreaseSingleProduct','as'=>'DecreaseSingleProduct']);
 
-
+    Route::post('/payments/sample_pay', 'PaymentController@sample_pay')->name('sample_pay');
+    Route::get('/payments/paypal_approval', 'PaymentController@paypal_approval')->name('paypal_approval');
+    Route::get('/payments/paypal_cancelled', 'PaymentController@cancelled')->name('paypal_cancelled');
+});
 
 
 

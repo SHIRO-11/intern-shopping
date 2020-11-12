@@ -41,8 +41,10 @@
                     <th>{{$total['quantity']}}</th>
                     <th>{{$total['price']}}円</th>
                     <td>
-                        <a id="payButton"
-                            class="product-item-btn btn btn-primary btn-block">今すぐ購入</a>
+                        {!! Form::open(['route'=>'sample_pay']) !!}
+                        <input type="hidden" class="form-control" name="value" value="{{$total['price']}}" required>
+                        <button type="submit" id="payButton" class="product-item-btn btn btn-primary btn-block">今すぐ購入</button>
+                        {!! Form::close() !!}
                     </td>
                 </tr>
                 @endif
