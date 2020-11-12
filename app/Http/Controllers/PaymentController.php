@@ -91,6 +91,7 @@ class PaymentController extends Controller
         $credentials = base64_encode("{$clientId}:{$clientSecret}");
 
 
+
         $client = new Client([
             'base_uri' => $baseUri,
         ]);
@@ -168,15 +169,15 @@ class PaymentController extends Controller
                 $product->delete();
             }
 
-            return redirect()
-                ->route('home')
-                ->with('success', "Thanks, {$last_name}. We received your {$amount} payment.");
+            $products = Product::orderby('created_at', 'desc')->paginate(10);
+
+
+            return view('products.index', compact('products'));
         }
 
+        $products = Product::orderby('created_at', 'desc')->paginate(10);
 
-        return redirect()
-            ->route('home')
-            ->withErrors('We cannot retrieve your payment platform. Try again, please.');
+        return view('products.index', compact('products'));
     }
 
     public function cancelled()
