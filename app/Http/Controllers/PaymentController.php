@@ -19,26 +19,15 @@ use App\Product;
 
 class PaymentController extends Controller
 {
-    protected $baseUri;
-    protected $clientId;
-    protected $clientSecret;
-    protected $credentials;
     protected $paypalService;
 
     public function __construct(PayPalService $paypal_service)
     {
-        $this->baseUri = config('services.paypal.base_uri');
-        $this->clientId = config('services.paypal.client_id');
-        $this->clientSecret = config('services.paypal.client_secret');
-        $this->credentials = base64_encode("{$this->clientId}:{$this->clientSecret}");
-
         $this->paypalService = $paypal_service;
     }
 
     public function sample_pay(Request $request)
     {
-        $headers['Authorization'] = $this->credentials;
-
         $response = $this->paypalService->request_order($request);
 
         // PayPal APIから返ってきたcontentsを取得
@@ -60,10 +49,6 @@ class PaymentController extends Controller
 
     public function paypal_approval()
     {
-        $client = new Client([
-            'base_uri' => $this->baseUri,
-        ]);
-
         $products = Product::orderby('created_at', 'desc')->paginate(10);
 
 
