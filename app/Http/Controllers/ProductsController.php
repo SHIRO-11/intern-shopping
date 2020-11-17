@@ -127,7 +127,6 @@ class ProductsController extends Controller
         //dd($exist_product);
         } else {
             // カートに商品がなければ新しく代入
-            // dd($exist_product);
             Cart::create([
                 'user_id'=>$user_id,
                 'product_id'=>$id,

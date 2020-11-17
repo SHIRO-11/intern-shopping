@@ -16,20 +16,24 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/', 'ProductsController@index')->name('products.index');
     Route::get('search', "ProductsController@search")->name('products.search');
 
-    Route::get('products/show/{id}', 'ProductsController@show')->name('products.show');
-    Route::get('/products/likes', 'ProductsController@likeProducts')->name('products.likes');
-    Route::get('/products/addLike/{id}', 'ProductsController@addLike')->name('products.addLike');
+    Route::group(['prefix' => 'products'], function () {
+        Route::get('show/{id}', 'ProductsController@show')->name('products.show');
+        Route::get('likes', 'ProductsController@likeProducts')->name('products.likes');
+        Route::post('addLike/{id}', 'ProductsController@addLike')->name('products.addLike');
 
-    Route::get('/products/cart', 'ProductsController@cart')->name('products.cart');
-    Route::get('product/addToCart/{id}', 'ProductsController@addToCart')->name('AddToCart');
-    Route::get('product/deleteItemFromCart/{id}', 'ProductsController@deleteItemFromCart')->name('DeleteItemFromCart');
+        Route::get('cart', 'ProductsController@cart')->name('products.cart');
+        Route::post('addToCart/{id}', 'ProductsController@addToCart')->name('AddToCart');
+        Route::post('deleteItemFromCart/{id}', 'ProductsController@deleteItemFromCart')->name('DeleteItemFromCart');
 
-    Route::get('product/increaseSingleProduct/{id}', ['uses'=>'ProductsController@increaseSingleProduct','as'=>'IncreaseSingleProduct']);
-    Route::get('product/decreaseSingleProduct/{id}', ['uses'=>'ProductsController@decreaseSingleProduct','as'=>'DecreaseSingleProduct']);
+        Route::post('increaseSingleProduct/{id}', 'ProductsController@increaseSingleProduct')->name('IncreaseSingleProduct');
+        Route::post('decreaseSingleProduct/{id}', 'ProductsController@decreaseSingleProduct')->name('DecreaseSingleProduct');
+    });
 
-    Route::post('/payments/sample_pay', 'PaymentController@sample_pay')->name('sample_pay');
-    Route::get('/payments/paypal_approval', 'PaymentController@paypal_approval')->name('paypal_approval');
-    Route::get('/payments/paypal_cancelled', 'PaymentController@cancelled')->name('paypal_cancelled');
+    Route::group(['prefix' => 'payments'], function () {
+        Route::post('sample_pay', 'PaymentController@sample_pay')->name('sample_pay');
+        Route::get('paypal_approval', 'PaymentController@paypal_approval')->name('paypal_approval');
+        Route::get('paypal_cancelled', 'PaymentController@cancelled')->name('paypal_cancelled');
+    });
 });
 
 
@@ -51,9 +55,10 @@ Route::group(['middleware' => ['auth', 'can:admin-only']], function () {
         Route::post('updateImage/{id}', 'AdminController@updateImage')->name('admin.products.updateImage');
     });
 
-
-    Route::get('/order_panel', 'AdminController@order_panel')->name('order_panel');
-    Route::get('/order_status', 'AdminController@order_status')->name('order_status');
+    Route::group(['prefix' => 'order'], function () {
+        Route::get('panel', 'AdminController@order_panel')->name('order_panel');
+        Route::post('status', 'AdminController@order_status')->name('order_status');
+    });
 });
 
 // 認証機能用のルーティング

@@ -28,7 +28,7 @@
                             @endforeach
                         </td>
                         <td>
-                            {!! Form::open(['route'=>'order_status','method'=>'get']) !!}
+                            {!! Form::open(['route'=>'order_status']) !!}
                                 {!! Form::hidden('order_id', $order->id) !!}
                                 @if($order->status == 'hold')
                                     {!! Form::hidden('status', 'hold') !!}
