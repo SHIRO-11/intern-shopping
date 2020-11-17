@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Product;
+use App\Order;
 
 
 use Illuminate\Support\Facades\File;
@@ -37,17 +38,25 @@ class AdminController extends Controller
             'description'=>'required|max:3000',
         ]);
         
-        // // 拡張子の取得
-        // $extension =  $request->file("image")->getClientOriginalExtension();
-        // //スペースをなくす
-        // $stringImageReFormat = str_replace(" ", "", $request->input('name'));
-        // // スペースを無くした画像名にする（画像名に空白があると上手く処理できないことがある）
-        // $imageName = $stringImageReFormat.".".$extension; //blackdress.jpg
+        /*画像保存用のコード
 
-        // // ファイル名を取得
-        // $imageEncoded = File::get($request->image);
-        // Storage::disk('local')->put('public/product_images/'.$imageName, $imageEncoded);
+        // 拡張子の取得
+        $extension =  $request->file("image")->getClientOriginalExtension();
 
+        //スペースをなくす
+        $stringImageReFormat = str_replace(" ", "", $request->input('name'));
+
+        // スペースを無くした画像名にする（画像名に空白があると上手く処理できないことがある）
+        $imageName = $stringImageReFormat.".".$extension; //blackdress.jpg
+
+        // ファイル名を取得
+        $imageEncoded = File::get($request->image);
+
+        //画像を保存
+        Storage::disk('local')->put('public/product_images/'.$imageName, $imageEncoded);
+        */
+
+        // heroku用
         $imageName = base64_encode(file_get_contents($request->image->getRealPath()));
 
         $created = Product::create([
@@ -138,5 +147,31 @@ class AdminController extends Controller
             $error = "NO Image was Selected";
             return $error;
         }
+    }
+
+
+    public function order_panel()
+    {
+        $orders = Order::orderBy('created_at', 'desc')->paginate(3);
+
+        return view('admin.order_panel', compact('orders'));
+    }
+
+    public function order_status(Request $request)
+    {
+        $order = Order::findOrFail($request->order_id);
+        // dump($request->status);
+
+        // updateメソッドとの違い
+        if ($request->status == 'hold') {
+            $order->status = 'complete';
+            $order->save();
+        // dd($order);
+        } elseif ($request->status == 'complete') {
+            $order->status ='hold';
+            $order->save();
+        }
+
+        return redirect()->back();
     }
 }

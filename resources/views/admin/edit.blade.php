@@ -3,7 +3,7 @@
 @section('content')
 @can('admin-only')
 <div class="product-create-table">
-    <h2>編集</h2>
+    <h2>「{{$product->name}}」の商品情報を編集</h2>
     {{--  Form::modelにすることで初期値が反映される  --}}
     {!! Form::model($product,['route'=>['admin.products.update','id'=>$product->id],'method'=>'update']) !!}
     <div class="form-group">

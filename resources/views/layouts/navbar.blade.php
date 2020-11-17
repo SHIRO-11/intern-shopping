@@ -25,8 +25,7 @@
                         {{-- ログアウトへのリンク --}}
                         <li class="dropdown-item">{!! link_to_route('logout.get', 'ログアウト') !!}</li>
                         <li class="dropdown-item"><a href="{{route('admin.products.create')}}">商品作成</a></li>
-                        <li class="dropdown-item">商品管理画面</li>
-                        <li class="dropdown-item">注文管理画面</li>
+                        <li class="dropdown-item"><a href="{{route('order_panel')}}">注文管理画面</a></li>
                     </ul>
                 </li>
             </ul>

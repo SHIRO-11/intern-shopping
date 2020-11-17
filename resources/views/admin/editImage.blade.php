@@ -3,7 +3,7 @@
 @section('content')
 @can('admin-only')
 <div class="product-create-table">
-    <h2>画像編集</h2>
+    <h2>「{{$product->name}}」の画像を編集</h2>
 
     {!! Form::open(['route'=>['admin.products.updateImage','id'=>$product->id],'enctype'=>'multipart/form-data']) !!}
 
